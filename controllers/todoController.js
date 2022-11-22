@@ -6,13 +6,14 @@ exports.home = (req, res) => {
 
 exports.createTodo = async (req, res) => {
   try {
-    const { title } = req.body;
+    const { title, tasks } = req.body;
     if (!title) {
       throw new Error("Title is Required");
     }
 
     const newTodo = new Todo({
       title: req.body.title,
+      tasks: req.body.tasks,
     });
 
     const createdNewTodo = await newTodo.save();
@@ -72,6 +73,22 @@ exports.deleteATodo = async (req, res) => {
     res.status(401).json({
       success: false,
       message: error.message,
+    });
+  }
+};
+
+exports.editATodo = async (req, res) => {
+  try {
+    const editTodo = await Todo.findByIdAndUpdate(req.params.id, req.body);
+    res.status(200).json({
+      success: true,
+      message: "Todo Updated Successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      success: false,
+      Error: error.message,
     });
   }
 };
