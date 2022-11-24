@@ -82,14 +82,8 @@ exports.deleteATaskInTodo = async (req, res) => {
     const { id } = req.params;
     const tasks = req.body.tasks;
 
-    //console.log(tasks);
-    // tasks.map((task) => {
-    //   var tasksArray = task.tasks;
-    // });
-
     const event = await Todo.findById(id);
     const taskArray = event.tasks;
-    console.log(taskArray);
 
     if (taskArray.includes(tasks)) {
       console.log("Task Avalaible");
@@ -114,23 +108,6 @@ exports.deleteATaskInTodo = async (req, res) => {
     });
   }
 };
-
-// exports.editATaskInTodo = async (req, res) => {
-//   try {
-//     const test = req.body;
-//     console.log(test);
-//     const editATask = await Todo.findByIdAndUpdate(req.params.id, req.body);
-//     res.status(200).json({
-//       success: true,
-//       message: "Task edited Succesfully",
-//     });
-//   } catch (error) {
-//     res.status(400).json({
-//       success: false,
-//       message: error.message,
-//     });
-//   }
-// };
 
 exports.editATaskInTodo = async (req, res) => {
   try {
