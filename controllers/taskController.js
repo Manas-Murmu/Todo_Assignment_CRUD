@@ -7,6 +7,7 @@ exports.createTaskTodo = async (req, res) => {
     if (!todo) return res.status(400).send("No todo Id exists");
     const { tasks } = req.body;
     todo.tasks.push(tasks);
+    console.log(todo);
     await todo.save();
     res.json(todo);
   } catch (error) {
@@ -114,16 +115,43 @@ exports.deleteATaskInTodo = async (req, res) => {
   }
 };
 
+// exports.editATaskInTodo = async (req, res) => {
+//   try {
+//     const test = req.body;
+//     console.log(test);
+//     const editATask = await Todo.findByIdAndUpdate(req.params.id, req.body);
+//     res.status(200).json({
+//       success: true,
+//       message: "Task edited Succesfully",
+//     });
+//   } catch (error) {
+//     res.status(400).json({
+//       success: false,
+//       message: error.message,
+//     });
+//   }
+// };
+
 exports.editATaskInTodo = async (req, res) => {
   try {
-    const test = req.body;
-    console.log(test);
-    const editATask = await Todo.findByIdAndUpdate(req.params.id, req.body);
+    const allTasks = await Todo.findById(req.params.id);
+    console.log(allTasks);
+    const taskArray = allTasks.tasks;
+
+    //Removing the Specific Tasks in Index, and Replaceing it with task provided in Body.
+    taskArray.splice(req.body.index, 1, req.body.tasks);
+
+    const updatedTasks = await Todo.findByIdAndUpdate(req.params.id, {
+      tasks: taskArray,
+    });
+    updatedTasks.save();
+
     res.status(200).json({
       success: true,
-      message: "Task edited Succesfully",
+      message: "Task Updated Succesfully",
     });
   } catch (error) {
+    console.log(error);
     res.status(400).json({
       success: false,
       message: error.message,
