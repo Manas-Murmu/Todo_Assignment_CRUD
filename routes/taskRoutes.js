@@ -8,7 +8,7 @@ const {
 const router = express.Router();
 
 router.post("/createTaskTodo/:id", createTaskTodo);
-router.delete("/deleteATaskInTodo/:id", deleteATaskInTodo);
+router.delete("/deleteATaskInTodo/:id/", deleteATaskInTodo);
 router.put("/editATaskInTodo/:id", editATaskInTodo);
 
 module.exports = router;
