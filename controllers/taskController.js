@@ -85,16 +85,13 @@ exports.deleteATaskInTodo = async (req, res) => {
     const event = await Todo.findById(id);
     const taskArray = event.tasks;
 
-    if (taskArray.includes(tasks)) {
-      console.log("Task Avalaible");
-      taskArray.remove(tasks);
-      console.log(taskArray);
-      event.save();
-    } else {
-      res.json({
-        message: "Task Not Avalaible",
-      });
+    if (!taskArray.includes(tasks)) {
+      throw new Error("Task Not Avalible");
     }
+    console.log("Task Avalaible");
+    taskArray.remove(tasks);
+    console.log(taskArray);
+    event.save();
 
     res.status(200).json({
       success: true,
@@ -112,6 +109,7 @@ exports.deleteATaskInTodo = async (req, res) => {
 exports.editATaskInTodo = async (req, res) => {
   try {
     const allTasks = await Todo.findById(req.params.id);
+
     console.log(allTasks);
     const taskArray = allTasks.tasks;
 
@@ -131,18 +129,21 @@ exports.editATaskInTodo = async (req, res) => {
     console.log(error);
     res.status(400).json({
       success: false,
-      message: error.message,
+      message: "Id Not Found in DB",
+      error: error.message,
     });
   }
 };
 
 exports.getATaskInTodo = async (req, res) => {
   try {
+    const id = req.params.id;
     const todo = await Todo.findById(req.params.id);
     const Tasks = todo.tasks;
     res.status(200).json({
       success: true,
       Tasks,
+      id,
     });
   } catch (error) {
     res.status(400).json({
