@@ -81,10 +81,10 @@ exports.deleteATaskInTodo = async (req, res) => {
   try {
     const { id } = req.params;
     const tasks = req.body.tasks;
-
+    console.log(tasks);
     const event = await Todo.findById(id);
     const taskArray = event.tasks;
-
+    console.log(taskArray);
     if (!taskArray.includes(tasks)) {
       throw new Error("Task Not Avalible");
     }
