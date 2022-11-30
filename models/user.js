@@ -8,9 +8,6 @@ var UserSchema = new mongoose.Schema(
       unique: true,
     },
     password: String,
-    token: {
-      type: String,
-    },
   },
   { timestamps: true }
 );

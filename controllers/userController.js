@@ -84,11 +84,20 @@ exports.logInUser = async (req, res) => {
 };
 
 exports.logOut = async (req, res) => {
-  res.clearCookie("token");
-  console.log("Test");
-  res.status(200).json({
-    message: "Log Out Succes",
-  });
+  try {
+    res.clearCookie("token");
+    console.log("Test");
+    res.status(200).json({
+      success: true,
+      message: "Logout Success",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.dashBoard = async (req, res) => {
+  res.send("Welcome to Dashboard");
 };
 
 // exports.createUser = async (req, res) => {
