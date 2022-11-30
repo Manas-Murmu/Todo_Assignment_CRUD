@@ -49,6 +49,48 @@ exports.createUser = async (req, res) => {
   }
 };
 
+exports.logInUser = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!(email && password)) {
+      res.status(401).send("Email and Password is required");
+    }
+
+    const user = await User.findOne({ email });
+
+    if (user && (await bcrypt.compare(password, user.password))) {
+      const token = jwt.sign({ id: user._id, email }, "shhhhh", {
+        expiresIn: "2h",
+      });
+
+      user.password = undefined;
+      user.token = token;
+
+      const options = {
+        expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+        httpOnly: true,
+      };
+      res.status(200).cookie("token", token, options).json({
+        success: true,
+        token,
+        user,
+      });
+    }
+    res.status(400).send("email or password is incorrect");
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.logOut = async (req, res) => {
+  res.clearCookie("token");
+  console.log("Test");
+  res.status(200).json({
+    message: "Log Out Succes",
+  });
+};
+
 // exports.createUser = async (req, res) => {
 //   try {
 //     const { userId, email, phone, password, name } = req.body;
