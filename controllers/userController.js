@@ -76,8 +76,11 @@ exports.logInUser = async (req, res) => {
         token,
         user,
       });
+    } else {
+      res.status(400).json({
+        message: "Email or Password is Incorrect",
+      });
     }
-    res.status(400).send("email or password is incorrect");
   } catch (error) {
     console.log(error);
   }
