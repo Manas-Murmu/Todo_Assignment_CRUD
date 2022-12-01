@@ -7,15 +7,18 @@ const {
   getSingleTodo,
   deleteATodo,
   editATodo,
+  getTodo,
 } = require("../controllers/todoController");
 const router = express.Router();
 
 router.get("/", home);
-router.post("/createTodo", createTodo);
+router.post("/createTodo/:id", createTodo);
 router.get("/getAllTodos", getAllTodos);
 router.get("/getSingleTodo/:id", getSingleTodo);
 router.delete("/deleteATodo/:id", deleteATodo);
 router.put("/editATodo/:id", editATodo);
 router.get("/getATaskInTodo/:id", getATaskInTodo);
+
+router.get("/getTodo/:id", getTodo);
 
 module.exports = router;

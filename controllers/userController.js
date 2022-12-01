@@ -49,7 +49,7 @@ exports.createUser = async (req, res) => {
   }
 };
 
-exports.logInUser = async (req, res) => {
+exports.logInUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -84,6 +84,7 @@ exports.logInUser = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+  next();
 };
 
 exports.logOut = async (req, res) => {
@@ -101,6 +102,26 @@ exports.logOut = async (req, res) => {
 
 exports.dashBoard = async (req, res) => {
   res.send("Welcome to Dashboard");
+};
+
+exports.getLoginUser = async (req, res) => {
+  try {
+    const { email, id } = req.user;
+    console.log(email, id);
+    if (!email && !id) {
+      res.send("User Email Not Found");
+    }
+    res.status(200).json({
+      success: true,
+      email,
+      id,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      error: error.message,
+    });
+  }
 };
 
 // exports.createUser = async (req, res) => {

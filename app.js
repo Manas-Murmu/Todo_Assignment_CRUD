@@ -10,8 +10,8 @@ const userRoutes = require("./routes/userRoutes");
 //Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 app.use(cors());
+app.use(cookieParser());
 
 //Routes
 app.use("/", todoRoutes);

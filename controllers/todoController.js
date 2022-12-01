@@ -6,7 +6,10 @@ exports.home = (req, res) => {
 
 exports.createTodo = async (req, res) => {
   try {
+    const userId = req.params;
+    console.log(userId);
     const { title, tasks } = req.body;
+
     if (!title) {
       throw new Error("Title is Required");
     }
@@ -14,6 +17,7 @@ exports.createTodo = async (req, res) => {
     const newTodo = new Todo({
       title: req.body.title,
       tasks: req.body.tasks,
+      userId: userId.id,
     });
 
     const createdNewTodo = await newTodo.save();
@@ -21,6 +25,7 @@ exports.createTodo = async (req, res) => {
       success: true,
       message: "Todo Created Succesfully",
       createdNewTodo,
+      userId,
     });
   } catch (error) {
     res.json({
@@ -89,6 +94,25 @@ exports.editATodo = async (req, res) => {
     res.status(400).json({
       success: false,
       Error: error.message,
+    });
+  }
+};
+
+exports.getTodo = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const value = Todo.findOne({ userId: userId }, function (err, myUser) {
+      console.log(myUser);
+      res.status(200).json({
+        success: true,
+        myUser,
+      });
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      success: false,
+      message: error.message,
     });
   }
 };
