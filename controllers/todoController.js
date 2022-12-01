@@ -6,8 +6,8 @@ exports.home = (req, res) => {
 
 exports.createTodo = async (req, res) => {
   try {
-    const userId = req.params;
-    console.log(userId);
+    // const userId = req.params;
+    // console.log(userId);
     const { title, tasks } = req.body;
 
     if (!title) {
@@ -17,7 +17,7 @@ exports.createTodo = async (req, res) => {
     const newTodo = new Todo({
       title: req.body.title,
       tasks: req.body.tasks,
-      userId: userId.id,
+      // userId: userId.id,
     });
 
     const createdNewTodo = await newTodo.save();
@@ -25,7 +25,7 @@ exports.createTodo = async (req, res) => {
       success: true,
       message: "Todo Created Succesfully",
       createdNewTodo,
-      userId,
+      //userId,
     });
   } catch (error) {
     res.json({
