@@ -36,7 +36,9 @@ exports.createTodo = async (req, res) => {
 
 exports.getAllTodos = async (req, res) => {
   try {
-    const allTodos = await Todo.find();
+    const userId = req.params.userId;
+    console.log(userId);
+    const allTodos = await Todo.find({ userId });
     res.status(200).json({
       success: true,
       allTodos,
