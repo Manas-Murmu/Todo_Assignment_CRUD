@@ -54,6 +54,7 @@ exports.logInUser = async (req, res, next) => {
     const { email, password } = req.body;
 
     if (!(email && password)) {
+      throw new Error("Email and Password is required");
       res.status(401).send("Email and Password is required");
     }
 
