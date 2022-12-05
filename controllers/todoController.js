@@ -16,8 +16,7 @@ exports.createTodo = async (req, res) => {
 
     const newTodo = new Todo({
       title: req.body.title,
-      tasks: req.body.tasks,
-      // userId: userId.id,
+      userId: req.body.userId,
     });
 
     const createdNewTodo = await newTodo.save();

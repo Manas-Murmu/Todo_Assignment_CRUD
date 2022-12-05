@@ -6,7 +6,10 @@ const todoSchema = new Schema(
   {
     title: String,
     tasks: [String],
-    //userId: String,
+    userId: {
+      type: String,
+      required: [true, "User Id is Required"],
+    },
   },
   { timestamps: true }
 );
